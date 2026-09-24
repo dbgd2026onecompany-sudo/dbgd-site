@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Регистрация — DBGD</title>
+    <meta name="description" content="Создайте аккаунт на сайте DBGD.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta property="og:title" content="Регистрация — DBGD">
+    <meta property="og:description" content="Создайте аккаунт на сайте DBGD.">
+    <meta property="og:image" content="og-image.png">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <hr>
+    <div class="link-center">
+        <a href="main.html">Главная</a>
+        <a href="goods.html">Товары</a>
+        <a href="services.html">Услуги</a>
+        <a href="order.html">Заказ</a>
+        <a href="Contacts.html">Контакты</a>
+        <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+    </div>
+    <hr>
+
+    <h2 style="text-align: center;">Регистрация</h2>
+
+    <div class="cart-page">
+        <form id="register-form" class="order-form" onsubmit="submitRegister(event)">
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" required autocomplete="email">
+
+            <label for="reg-password">Пароль</label>
+            <input type="password" id="reg-password" required minlength="6" autocomplete="new-password">
+
+            <label for="reg-password2">Повторите пароль</label>
+            <input type="password" id="reg-password2" required minlength="6" autocomplete="new-password">
+
+            <button type="submit" id="register-submit-btn">Зарегистрироваться</button>
+        </form>
+        <p class="section-note">Уже есть аккаунт? <a href="login.html">Войти</a></p>
+    </div>
+
+    <script src="cart.js"></script>
+</body>
+</html>

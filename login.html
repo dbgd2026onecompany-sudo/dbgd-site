@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Вход — DBGD</title>
+    <meta name="description" content="Войдите в свой аккаунт на сайте DBGD.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta property="og:title" content="Вход — DBGD">
+    <meta property="og:description" content="Войдите в свой аккаунт на сайте DBGD.">
+    <meta property="og:image" content="og-image.png">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <hr>
+    <div class="link-center">
+        <a href="main.html">Главная</a>
+        <a href="goods.html">Товары</a>
+        <a href="services.html">Услуги</a>
+        <a href="order.html">Заказ</a>
+        <a href="Contacts.html">Контакты</a>
+        <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+    </div>
+    <hr>
+
+    <h2 style="text-align: center;">Вход</h2>
+
+    <div class="cart-page">
+        <form id="login-form" class="order-form" onsubmit="submitLogin(event)">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" required autocomplete="email">
+
+            <label for="login-password">Пароль</label>
+            <input type="password" id="login-password" required autocomplete="current-password">
+
+            <button type="submit" id="login-submit-btn">Войти</button>
+        </form>
+        <p class="section-note">
+            Нет аккаунта? <a href="register.html">Зарегистрироваться</a><br>
+            Не пришло письмо с подтверждением? <a href="#" onclick="resendVerification(event)">Отправить ещё раз</a>
+        </p>
+    </div>
+
+    <script src="cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Услуги — DBGD</title>
+    <meta name="description" content="Ремонт ПО удалённо и с выездом, видеомонтаж, разработка 2D-игр, перевод на жестовый язык.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta property="og:title" content="Услуги — DBGD">
+    <meta property="og:description" content="Ремонт ПО удалённо и с выездом, видеомонтаж, разработка 2D-игр, перевод на жестовый язык.">
+    <meta property="og:image" content="og-image.png">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <hr>
+    <div class="link-center">
+        <a href="main.html">Главная</a>
+        <a href="goods.html">Товары</a>
+        <a href="services.html" class="nav-current">Услуги</a>
+        <a href="order.html">Заказ</a>
+        <a href="Contacts.html">Контакты</a>
+        <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+</div>
+    <marquee behavior="" direction="" style="background-color: aquamarine;">Дополнить вам возможность облегчить вашу жизнь 😊😊 </marquee>
+    <hr>
+    <h2 style="text-align: center;">Услуги</h2>
+    <div class="table-serv">
+        <div class="container-tabl">
+            <table>
+        <tr>
+            <th>№п/п</th>
+            <th>Название услуги</th>
+            <th>Цена</th>
+            <th>Цена с скидкой</th>
+            <th>Дата</th>
+            <th>Заказать</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Ремонта ПО (удаленно)</td>
+            <td>250 грн</td>
+            <td>200 грн</td>
+            <td>14-09-2026</td>
+            <td><button type="button" class="add-to-cart-btn" onclick="addToCart('serv-1', 'Ремонт ПО (удаленно)', 200, '')">В корзину</button></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Ремонт ПО (выезд)</td>
+            <td>300 грн</td>
+            <td>250 грн</td>
+            <td>14-09-2026</td>
+            <td><button type="button" class="add-to-cart-btn" onclick="addToCart('serv-2', 'Ремонт ПО (выезд)', 250, '')">В корзину</button></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Видеомонтаж</td>
+            <td>500-1000 грн</td>
+            <td>350-850 грн</td>
+            <td>14-09-2026</td>
+            <td><button type="button" class="add-to-cart-btn" onclick="addToCart('serv-3', 'Видеомонтаж', 350, '')">В корзину</button></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Переводчик жестовый язык</td>
+            <td>500 грн</td>
+            <td>400 грн</td>
+            <td>14-09-2026</td>
+            <td><button type="button" class="add-to-cart-btn" onclick="addToCart('serv-4', 'Переводчик жестовый язык', 400, '')">В корзину</button></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Розработка игр 2д платформа</td>
+            <td>1000-2000 грн</td>
+            <td>800-1500 грн</td>
+            <td>14-09-2026</td>
+            <td><button type="button" class="add-to-cart-btn" onclick="addToCart('serv-5', 'Розработка игр 2д платформа', 800, '')">В корзину</button></td>
+        </tr>
+    </table>
+        </div>
+    <h2 style="text-align: center; color: red; font-size: 30px;">Внимание</h2>
+    <p style="font-size: 25px;">Первый клиент для диагностики — <span style="color: blue;">БЕСПЛАТНО!</span></p>
+    <p style="font-size: 25px;">Оставьте заявку сегодня, и мы проведём диагностику без оплаты, а при заказе услуги сделаем дополнительную скидку!</p>
+    </div>
+
+    <script src="cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Корзина — DBGD</title>
+    <meta name="description" content="Ваш заказ и оформление доставки.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta property="og:title" content="Корзина — DBGD">
+    <meta property="og:description" content="Ваш заказ и оформление доставки.">
+    <meta property="og:image" content="og-image.png">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <hr>
+    <div class="link-center">
+        <a href="main.html">Главная</a>
+        <a href="goods.html">Товары</a>
+        <a href="services.html">Услуги</a>
+        <a href="order.html">Заказ</a>
+        <a href="Contacts.html">Контакты</a>
+        <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+    </div>
+    <hr>
+
+    <h2 style="text-align: center;">Корзина</h2>
+    <hr>
+
+    <div class="cart-page">
+        <div class="cart-items"></div>
+        <div class="cart-summary"></div>
+
+        <form id="order-form" class="order-form" onsubmit="submitOrder(event)">
+            <h3>Оформление заказа</h3>
+
+            <label for="order-name">Имя</label>
+            <input type="text" id="order-name" placeholder="Ваше имя" required minlength="2" autocomplete="name">
+
+            <label for="order-phone">Телефон</label>
+            <input type="tel" id="order-phone" placeholder="+380 XX XXX XX XX" required>
+
+            <label for="order-delivery">Как доставить</label>
+            <select id="order-delivery">
+                <option value="telegram">Онлайн в Telegram (для программ) — бесплатно</option>
+                <option value="remote">Удалённо (для услуг) — бесплатно</option>
+                <option value="novaposhta">Новая почта, отделение — 90 грн</option>
+                <option value="courier">Курьер по Киеву — 150 грн</option>
+                <option value="pickup">Самовывоз, Киев — бесплатно</option>
+            </select>
+
+            <div id="order-address-wrap" style="display: none;">
+                <label for="order-address">Куда доставить</label>
+                <input type="text" id="order-address" placeholder="Город и номер отделения Новой почты">
+            </div>
+
+            <label for="order-payment">Как оплатить</label>
+            <select id="order-payment">
+                <option value="card">Перевод на карту</option>
+                <option value="mono">Банка monobank</option>
+                <option value="cod">Наложенный платёж</option>
+                <option value="cash">Наличными при получении</option>
+            </select>
+
+            <label for="order-comment">Комментарий</label>
+            <textarea id="order-comment" placeholder="Что-то, о чём нам стоит знать (необязательно)" rows="3"></textarea>
+
+            <button type="submit" id="order-submit-btn">Оформить заказ</button>
+        </form>
+
+        <div class="order-history"></div>
+    </div>
+
+    <script src="cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+*{
+    margin: 0;
+    padding: 0;
+    background-color: rgb(204, 209, 214);
+}
+
+h1.center{
+    text-align: center;
+    font-family: monospace;
+    font-size: 50px;
+    color: blue
+}
+div.link-center{
+    text-align: center;
+    font-size: 40px;
+    margin: 0 5px;
+    text-decoration-line: none
+}
+
+marquee{
+    background-color: bisque;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: brown;
+}
+
+div.table-serv{
+    table{
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+}
+/* ================================ Товары на покупку ============================= */
+.cards-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 15px;
+    position: relative;
+}
+
+.card img{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.favorite-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.old-price{
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+}
+
+.new-price{
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tg-badge{
+    background: lightskyblue;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+/* ============================================================================== */
+/* ===== Стили для корзины — добавьте в свой style.css ===== */
+
+/* Бейдж-счётчик возле иконки 🧺 в шапке */
+.cart-link {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: none; /* показывается через JS, когда в корзине есть товары */
+    align-items: center;
+    justify-content: center;
+    line-height: 16px;
+    text-align: center;
+}
+
+/* Кнопка "Добавить в корзину" на карточке товара */
+.add-to-cart-btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: darkblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-to-cart-btn:hover {
+    background: #1a1aad;
+}
+
+/* Контейнер страницы корзины */
+.cart-page {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.cart-empty {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+}
+
+/* Одна строка товара в корзине */
+.cart-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.cart-row img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.cart-row-info {
+    flex: 1;
+}
+
+.cart-row-title {
+    font-weight: bold;
+    margin: 0 0 4px 0;
+}
+
+.cart-row-price {
+    color: #666;
+    margin: 0;
+    font-size: 14px;
+}
+
+.cart-qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-qty button {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cart-row-total {
+    font-weight: bold;
+    min-width: 80px;
+    text-align: right;
+}
+
+.cart-remove {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.cart-total {
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+/* ===== Всплывающие уведомления (тосты) ===== */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+ 
+.toast {
+    padding: 12px 18px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+ 
+.toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+ 
+.toast-success {
+    background: #2e7d32; /* зелёный */
+}
+ 
+.toast-error {
+    background: #c62828; /* красный */
+}
+ 
+/* ===== Форма оформления заказа ===== */
+.order-form {
+    max-width: 400px;
+    margin: 30px auto 0;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+ 
+.order-form h3 {
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+ 
+.order-form input,
+.order-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+}
+ 
+.order-form button {
+    padding: 12px;
+    background: darkblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+ 
+.order-form button:hover {
+    background: #1a1aad;
+}
+ 
+.order-form button:disabled {
+    background: #999;
+    cursor: not-allowed;
+}
+
+.cart-page .order-form + .order-form {
+    margin-top: 30px;
+}
+
+/* ===== Индикатор "Онлайн/Оффлайн" ===== */
+.online-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.online-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.online-dot.online {
+    background: #2e7d32;
+    box-shadow: 0 0 6px #2e7d32;
+}
+
+.online-dot.offline {
+    background: #c62828;
+}
+
+/* ===== Плавающая кнопка быстрой связи ===== */
+.floating-contact {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.floating-contact-toggle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: darkblue;
+    color: white;
+    font-size: 26px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.floating-contact-toggle:hover {
+    background: #1a1aad;
+}
+
+.floating-contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.floating-contact-options.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.floating-contact-options a {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.floating-contact-options .fc-phone { background: #455a64; }
+.floating-contact-options .fc-telegram { background: #229ED9; }
+.floating-contact-options .fc-whatsapp { background: #25D366; }
+.floating-contact-options .fc-viber { background: #7360f2; }
+
+/* ============================================================
+   НОВОЕ: количество, промокод, итоги, история заказов
+   ============================================================ */
+
+/* Поле с ошибкой валидации */
+.field-error {
+    border-color: #c62828 !important;
+    background: #fff5f5;
+}
+
+/* Товар без картинки */
+.cart-row-noimg {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    background: #f5f5f5;
+}
+
+/* Ручной ввод количества */
+.cart-qty-input {
+    width: 46px;
+    height: 26px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    -moz-appearance: textfield;
+}
+
+.cart-qty-input::-webkit-outer-spin-button,
+.cart-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cart-qty button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Промокод */
+.promo-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.promo-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    text-transform: uppercase;
+    background: white;
+}
+
+.promo-form button {
+    padding: 10px 16px;
+    background: #455a64;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.promo-form button:hover {
+    background: #37474f;
+}
+
+.promo-clear {
+    background: none;
+    border: none;
+    color: #455a64;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0 0 0 6px;
+}
+
+/* Блок итогов */
+.cart-sums {
+    margin-top: 15px;
+    border-top: 1px solid #bbb;
+    padding-top: 12px;
+}
+
+.sum-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 15px;
+    padding: 5px 0;
+    font-size: 15px;
+}
+
+.sum-discount {
+    color: #2e7d32;
+}
+
+.sum-total {
+    font-size: 20px;
+    font-weight: bold;
+    border-top: 1px solid #bbb;
+    margin-top: 8px;
+    padding-top: 10px;
+}
+
+/* Подписи к полям формы */
+.order-form label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: -4px;
+}
+
+.order-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: inherit;
+    background: white;
+}
+
+/* История заказов */
+.order-history {
+    max-width: 400px;
+    margin: 30px auto 40px;
+}
+
+.order-history h3 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.history-note,
+.history-empty {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.history-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.history-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.history-number {
+    font-weight: bold;
+}
+
+.history-date {
+    color: #666;
+}
+
+.history-status {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: white;
+    font-size: 12px;
+}
+
+.history-new {
+    background: #2e7d32;
+}
+
+.history-pending {
+    background: #ef6c00;
+}
+
+.history-items {
+    list-style: none;
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.history-items li {
+    padding: 2px 0;
+}
+
+.history-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+    font-size: 13px;
+}
+
+.history-way {
+    flex: 1;
+    color: #666;
+}
+
+.history-foot button {
+    padding: 6px 12px;
+    background: darkblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.history-foot button:hover {
+    background: #1a1aad;
+}
+
+.history-clear {
+    display: block;
+    margin: 0 auto;
+    padding: 8px 16px;
+    background: none;
+    border: 1px solid #c62828;
+    color: #c62828;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.history-clear:hover {
+    background: #c62828;
+    color: white;
+}
+
+/* Пустая корзина: ссылки видны */
+.cart-empty a {
+    color: darkblue;
+}
+
+/* Чтобы тосты помещались на узких экранах */
+@media (max-width: 480px) {
+    .toast-container {
+        left: 10px;
+        right: 10px;
+        bottom: 90px;
+    }
+
+    .cart-row {
+        flex-wrap: wrap;
+    }
+
+    .cart-row-info {
+        flex-basis: 60%;
+    }
+}
+
+
+/* ============================================================
+   ЛОГОТИП И ШАПКА
+   ============================================================ */
+
+.site-logo {
+    display: block;
+    width: fit-content;
+    margin: 10px auto;
+    background: none;
+}
+
+.site-logo img {
+    display: block;
+    width: 140px;
+    height: auto;
+    background: none;
+}
+
+/* Текущая страница в меню */
+.link-center .nav-current {
+    color: #1a1aad;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* Донат: баннер monobank */
+.support-donate {
+    max-width: 700px;
+    margin: 20px auto 40px;
+    text-align: center;
+}
+
+.container-support-donate img {
+    max-width: 260px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    background: none;
+}
+
+@media (max-width: 480px) {
+    .site-logo img { width: 110px; }
+    div.link-center { font-size: 28px; }
+}
+
+/* Блок адреса доставки (показывается/скрывается через JS) */
+#order-address-wrap label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+#order-address-wrap input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Форма не должна разъезжаться от длинных вариантов в select */
+.order-form {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.order-form input,
+.order-form textarea,
+.order-form select,
+.promo-form input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.cart-page {
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Плавающая кнопка не должна закрывать форму на узких экранах */
+@media (max-width: 480px) {
+    .floating-contact {
+        bottom: 12px;
+        left: 12px;
+    }
+
+    .floating-contact-toggle {
+        width: 46px;
+        height: 46px;
+        font-size: 20px;
+        opacity: 0.9;
+    }
+}
+
+/* ===== Авторизация ===== */
+.auth-nav-link {
+    margin-left: 10px;
+}
+
+.section-note {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    margin-top: 15px;
+}
+
+.section-note a {
+    color: darkblue;
+}

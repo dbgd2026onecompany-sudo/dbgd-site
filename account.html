@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Личный кабинет — DBGD</title>
+    <meta name="description" content="Личный кабинет на сайте DBGD.">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <hr>
+    <div class="link-center">
+        <a href="main.html">Главная</a>
+        <a href="goods.html">Товары</a>
+        <a href="services.html">Услуги</a>
+        <a href="order.html">Заказ</a>
+        <a href="Contacts.html">Контакты</a>
+        <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+    </div>
+    <hr>
+
+    <h2 style="text-align: center;">Личный кабинет</h2>
+
+    <div class="cart-page">
+        <div id="account-info" style="text-align: center; margin-bottom: 20px;">Загрузка...</div>
+        <button type="button" class="add-to-cart-btn" style="display: block; margin: 0 auto;" onclick="doLogout()">Выйти из аккаунта</button>
+    </div>
+
+    <script src="cart.js"></script>
+</body>
+</html>

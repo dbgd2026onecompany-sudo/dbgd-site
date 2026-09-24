@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Подтверждение почты — DBGD</title>
+    <meta name="description" content="Подтверждение почты для аккаунта DBGD.">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <hr>
+    <div class="link-center">
+        <a href="main.html">Главная</a>
+        <a href="goods.html">Товары</a>
+        <a href="services.html">Услуги</a>
+        <a href="order.html">Заказ</a>
+        <a href="Contacts.html">Контакты</a>
+        <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+    </div>
+    <hr>
+
+    <h2 style="text-align: center;">Подтверждение почты</h2>
+
+    <div class="cart-page">
+        <p id="verify-message" style="text-align: center; font-size: 16px;">Проверяем ссылку...</p>
+    </div>
+
+    <script src="cart.js"></script>
+    <script>verifyEmailFromUrl();</script>
+</body>
+</html>

@@ -25,9 +25,52 @@
 
     <div class="cart-page">
         <div id="account-info" style="text-align: center; margin-bottom: 20px;">Загрузка...</div>
+        
+        <!-- Скрытая по умолчанию ссылка на админку -->
+        <div id="admin-link-container" style="text-align: center; margin-bottom: 20px; display: none;">
+            <a href="admin.html" style="text-decoration: none; font-size: 24px;" title="Админ-панель">⚙️</a>
+        </div>
+
         <button type="button" class="add-to-cart-btn" style="display: block; margin: 0 auto;" onclick="doLogout()">Выйти из аккаунта</button>
     </div>
 
     <script src="cart.js"></script>
+    <script>
+        // Скрипт для проверки авторизации и отображения админки
+        async function loadProfile() {
+            const infoDiv = document.getElementById('account-info');
+            const adminContainer = document.getElementById('admin-link-container');
+            
+            try {
+                const res = await fetch('/api/me');
+                if (!res.ok) throw new Error('Ошибка сервера');
+                
+                const data = await res.json();
+                
+                if (data.loggedIn) {
+                    infoDiv.innerHTML = `<strong>Вы вошли как:</strong> ${data.email}`;
+                    
+                    // Если пользователь админ, показываем шестеренку
+                    if (data.isAdmin) {
+                        adminContainer.style.display = 'block';
+                    }
+                } else {
+                    // Если не авторизован, перекидываем на логин
+                    window.location.href = 'login.html';
+                }
+            } catch (err) {
+                infoDiv.innerHTML = 'Не удалось загрузить данные аккаунта.';
+                console.error(err);
+            }
+        }
+
+        async function doLogout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.href = 'main.html';
+        }
+
+        // Запускаем загрузку профиля при открытии страницы
+        loadProfile();
+    </script>
 </body>
 </html>

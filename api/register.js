@@ -49,8 +49,8 @@ module.exports = async function handler(req, res) {
          <p>Ссылка действует 24 часа. Если вы не регистрировались на DBGD — просто проигнорируйте это письмо.</p>`
     );
 
-    if (!sent) {
-        return res.status(502).json({ error: 'Не удалось отправить письмо. Попробуйте позже' });
+    if (!sent.ok) {
+        return res.status(502).json({ error: `Resend отказал (код ${sent.status}): ${sent.body}` });
     }
 
     return res.status(200).json({ ok: true });

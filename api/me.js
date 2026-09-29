@@ -8,7 +8,10 @@ module.exports = async function handler(req, res) {
     if (!email) {
         return res.status(200).json({ loggedIn: false });
     }
-    return res.status(200).json({ loggedIn: true, email });
+
+    // Проверяем, совпадает ли почта пользователя с почтой админа из настроек Vercel
+    const isAdmin = !!process.env.ADMIN_EMAIL &&
+        email.toLowerCase() === process.env.ADMIN_EMAIL.trim().toLowerCase();
+
+    return res.status(200).json({ loggedIn: true, email, isAdmin });
 };
-isAdmin: !!process.env.ADMIN_EMAIL &&
-  email.toLowerCase() === process.env.ADMIN_EMAIL.trim().toLowerCase()

@@ -10,3 +10,5 @@ module.exports = async function handler(req, res) {
     }
     return res.status(200).json({ loggedIn: true, email });
 };
+isAdmin: !!process.env.ADMIN_EMAIL &&
+  email.toLowerCase() === process.env.ADMIN_EMAIL.trim().toLowerCase()

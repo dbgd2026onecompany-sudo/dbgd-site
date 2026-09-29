@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Админ-панель — DBGD</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <hr>
+    <div class="link-center">
+        <a href="main.html">Главная</a>
+        <a href="goods.html">Товары</a>
+        <a href="services.html">Услуги</a>
+        <a href="order.html">Заказ</a>
+        <a href="Contacts.html">Контакты</a>
+        <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+    </div>
+    <hr>
+
+    <h2 style="text-align: center;">Админ-панель — Товары</h2>
+
+    <div class="cart-page">
+        <p id="admin-guard" style="text-align: center;">Проверка доступа...</p>
+
+        <div id="admin-panel" style="display: none;">
+            <form id="product-form" class="order-form" onsubmit="submitProductForm(event)">
+                <input type="hidden" id="product-id">
+
+                <label for="product-name">Название товара</label>
+                <input type="text" id="product-name" required>
+
+                <label for="product-price">Цена, грн</label>
+                <input type="number" id="product-price" min="1" step="1" required>
+
+                <label for="product-oldprice">Старая цена, грн (необязательно, для зачёркнутой цены)</label>
+                <input type="number" id="product-oldprice" min="1" step="1">
+
+                <label for="product-image">Имя файла картинки (файл должен быть загружен в репозиторий рядом с main.html)</label>
+                <input type="text" id="product-image" placeholder="например plan.jpg">
+
+                <label for="product-description">Описание (необязательно)</label>
+                <textarea id="product-description" rows="3"></textarea>
+
+                <button type="submit" id="product-submit-btn">Добавить товар</button>
+                <button type="button" id="product-cancel-btn" class="promo-clear" style="display: none;" onclick="cancelProductEdit()">Отменить редактирование</button>
+            </form>
+
+            <h3 style="text-align: center; margin-top: 30px;">Текущие товары</h3>
+            <div id="admin-products-list"></div>
+        </div>
+    </div>
+
+    <script src="cart.js"></script>
+    <script>checkAdminAccess();</script>
+</body>
+</html>

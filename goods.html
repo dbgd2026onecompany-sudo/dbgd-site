@@ -13,7 +13,10 @@
     <meta property="og:type" content="website">
 </head>
 <body>
-        <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
+    <div id="auth-header" style="text-align: center; padding: 10px; background-color: #f0f0f0;">
+        <!-- Сюда будет загружаться профиль через cart.js (если там есть такая логика) или можно добавить отдельный скрипт -->
+    </div>
+    <a href="main.html" class="site-logo"><img src="logo.png" alt="DBGD"></a>
     <hr>
     <div class="link-center">
         <a href="main.html">Главная</a>
@@ -22,20 +25,96 @@
         <a href="order.html">Заказ</a>
         <a href="Contacts.html">Контакты</a>
         <a href="korzina.html" class="cart-link">🧺<span class="cart-badge"></span></a>
+    </div>
     <hr>
-   </div>
-<h2 style="font-size: 2.5em; text-align: center; color:darkblue">Товары</h2>
-<hr>
-<marquee class="marq-goods" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 200; color: red;" direction="">Здесь все товары обновленные!</marquee>
+    
+    <h2 style="font-size: 2.5em; text-align: center; color:darkblue">Товары</h2>
+    <hr>
+    <marquee class="marq-goods" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 200; color: red;" direction="">Здесь все товары обновленные!</marquee>
 
-<!-- Сделать контейнер товар/ПО -->
     <div class="orders-recommendations">
         <h2>Рекомендації від розробника для вашого життя</h2>
-        <div class="cards-container">
+        <div class="cards-container" id="products-container">
             <p class="cart-empty">Загрузка товаров...</p>
         </div>
     </div>
 
+    <!-- Сначала подключаем корзину, чтобы работала функция addPosition -->
     <script src="cart.js"></script>
+    
+    <!-- Скрипт для загрузки товаров из базы -->
+    <script>
+        async function loadProducts() {
+            const container = document.getElementById('products-container');
+            
+            try {
+                // Делаем запрос к нашему API
+                const response = await fetch('/api/products');
+                if (!response.ok) throw new Error('Ошибка сети');
+                
+                const data = await response.json();
+                
+                // Если товаров нет, выводим сообщение
+                if (!data.products || data.products.length === 0) {
+                    container.innerHTML = '<p class="cart-empty">Товаров пока нет. Загляните позже!</p>';
+                    return;
+                }
+
+                // Очищаем контейнер перед добавлением карточек
+                container.innerHTML = '';
+                
+                // Перебираем полученные товары и создаем для каждого HTML-карточку
+                data.products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    
+                    // Формируем HTML карточки. 
+                    // Если у товара есть старая цена, зачеркиваем её.
+                    card.innerHTML = `
+                        <div class="card-img-container">
+                            <img src="${product.image || 'logo.png'}" alt="${product.name}" onerror="this.src='logo.png'">
+                        </div>
+                        <h3>${product.name}</h3>
+                        ${product.description ? `<p style="font-size: 0.9em; margin-bottom: 10px;">${product.description}</p>` : ''}
+                        <div class="card-price">
+                            ${product.oldPrice ? `<span class="old-price">${product.oldPrice} грн</span> ` : ''}
+                            ${product.price} грн
+                        </div>
+                        <button type="button" class="add-to-cart-btn" 
+                                onclick="addPosition('${product.id}', '${product.name.replace(/'/g, "\\'")}', ${product.price})">
+                            В корзину
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
+                
+            } catch (error) {
+                console.error("Ошибка при загрузке товаров:", error);
+                container.innerHTML = '<p class="cart-empty" style="color: red;">Ошибка загрузки товаров. Попробуйте обновить страницу.</p>';
+            }
+        }
+
+        // Запускаем загрузку сразу при открытии страницы
+        loadProducts();
+        
+        // Загрузка шапки (имя пользователя)
+        async function loadHeader() {
+            try {
+                const res = await fetch('/api/me');
+                if(res.ok) {
+                    const data = await res.json();
+                    if(data.loggedIn) {
+                         const header = document.getElementById('auth-header');
+                         let html = `👤 <a href="account.html" style="text-decoration:none; color:inherit;">${data.email}</a>`;
+                         if(data.isAdmin) {
+                             html += ` | <a href="admin.html" style="text-decoration:none; color:inherit;">⚙️ Админка</a>`;
+                         }
+                         header.innerHTML = html;
+                    }
+                }
+            } catch(e) {}
+        }
+        loadHeader();
+    </script>
 </body>
 </html>

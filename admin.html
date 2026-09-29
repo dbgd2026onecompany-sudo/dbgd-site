@@ -55,6 +55,132 @@
     </div>
 
     <script src="cart.js"></script>
-    <script>checkAdminAccess();</script>
+    <script>
+        async function checkAdminAccess() {
+            try {
+                const res = await fetch('/api/me');
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                
+                if (data.isAdmin) {
+                    document.getElementById('admin-guard').style.display = 'none';
+                    document.getElementById('admin-panel').style.display = 'block';
+                    loadAdminProducts();
+                } else {
+                    document.getElementById('admin-guard').innerText = 'Доступ запрещён. Вы не являетесь администратором.';
+                }
+            } catch (err) {
+                document.getElementById('admin-guard').innerText = 'Ошибка при проверке прав доступа.';
+            }
+        }
+
+        async function loadAdminProducts() {
+            const res = await fetch('/api/products');
+            const data = await res.json();
+            const listDiv = document.getElementById('admin-products-list');
+            
+            if (!data.products || data.products.length === 0) {
+                listDiv.innerHTML = '<p style="text-align: center;">Товаров пока нет.</p>';
+                return;
+            }
+
+            listDiv.innerHTML = data.products.map(p => `
+                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+                    <h4>${p.name}</h4>
+                    <p>Цена: ${p.price} грн ${p.oldPrice ? `(Старая: <s>${p.oldPrice} грн</s>)` : ''}</p>
+                    <p>Картинка: ${p.image || 'нет'}</p>
+                    <button type="button" onclick="editProduct('${p.id}')">Редактировать</button>
+                    <button type="button" class="promo-clear" onclick="deleteProduct('${p.id}')">Удалить</button>
+                </div>
+            `).join('');
+            
+            // Сохраняем товары локально, чтобы брать данные для формы редактирования
+            window.adminProducts = data.products;
+        }
+
+        async function submitProductForm(event) {
+            event.preventDefault();
+            const id = document.getElementById('product-id').value;
+            const name = document.getElementById('product-name').value;
+            const price = document.getElementById('product-price').value;
+            const oldPrice = document.getElementById('product-oldprice').value;
+            const image = document.getElementById('product-image').value;
+            const description = document.getElementById('product-description').value;
+
+            const payload = { name, price, oldPrice, image, description };
+            
+            let url = '/api/products';
+            let method = 'POST';
+
+            if (id) {
+                payload.id = id;
+                method = 'PUT';
+            }
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await res.json();
+                
+                if (data.ok) {
+                    alert(id ? 'Товар обновлен' : 'Товар добавлен');
+                    cancelProductEdit();
+                    loadAdminProducts();
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Неизвестная ошибка'));
+                }
+            } catch (err) {
+                alert('Произошла ошибка сети');
+            }
+        }
+
+        function editProduct(id) {
+            const product = window.adminProducts.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-oldprice').value = product.oldPrice || '';
+            document.getElementById('product-image').value = product.image || '';
+            document.getElementById('product-description').value = product.description || '';
+
+            document.getElementById('product-submit-btn').innerText = 'Сохранить изменения';
+            document.getElementById('product-cancel-btn').style.display = 'inline-block';
+            window.scrollTo(0, 0);
+        }
+
+        function cancelProductEdit() {
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('product-submit-btn').innerText = 'Добавить товар';
+            document.getElementById('product-cancel-btn').style.display = 'none';
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Вы уверены, что хотите удалить этот товар?')) return;
+            
+            try {
+                const res = await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                
+                if (data.ok) {
+                    alert('Товар удален');
+                    loadAdminProducts();
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Неизвестная ошибка'));
+                }
+            } catch(err) {
+                 alert('Произошла ошибка сети');
+            }
+        }
+
+        // Запуск при загрузке страницы
+        checkAdminAccess();
+    </script>
 </body>
 </html>

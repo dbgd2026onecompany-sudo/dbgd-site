@@ -109,7 +109,8 @@ async function sendEmail(to, subject, html) {
             html
         })
     });
-    return res.ok;
+    const bodyText = await res.text();
+    return { ok: res.ok, status: res.status, body: bodyText };
 }
 
 function readJsonBody(req) {
